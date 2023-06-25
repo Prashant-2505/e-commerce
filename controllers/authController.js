@@ -10,9 +10,10 @@ export const registerController = async (req, res) => {
   try {
     const { name, email, password, phone, address } = req.body;
     if (!name || !email || !password || !address) {
-      return res.status(400).json({ error: "Please provide all required fields" });
+      return res.status(400).json({ message: "Please provide all required fields" });
     }
-
+     
+    // existing user
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(409).json({
@@ -46,6 +47,7 @@ export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // validation
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -65,7 +67,7 @@ export const loginController = async (req, res) => {
     if (!match) {
       return res.status(401).json({
         success: false,
-        message: "Invalid password",
+        message: "Invalid  password",
       });
     }
 
@@ -90,3 +92,12 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+
+
+// test controler
+
+export const testController = (req,res)=>
+{
+    res.send('Protected route')
+}
