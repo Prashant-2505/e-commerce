@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Layout from '../../components/layout/Layout';
-import { toast } from 'react-toastify';
+import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import '../../styles/authStyles.css'
 
 const Register = () => {
     const navigate = useNavigate();
@@ -12,12 +13,13 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
+    const [answer, setAnswer] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, { name, email, password, phone, address });
+            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, { name, email, password, phone, address,answer });
             if (res.data.success) {
                 toast.success(res.data.message);
                 navigate("/login");
@@ -32,7 +34,7 @@ const Register = () => {
 
     return (
         <Layout title={"Register - Ecommerce app"}>
-            <div className="register">
+            <div className="form-container">
                 <h1>Register here</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
@@ -49,6 +51,9 @@ const Register = () => {
                     </div>
                     <div className="mb-3">
                         <input required placeholder='Address' type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="form-control" />
+                    </div>
+                    <div className="mb-3">
+                        <input required placeholder='Whats is Your favourite sport ' type="text" value={answer} onChange={(e) => setAnswer(e.target.value)} className="form-control" />
                     </div>
 
                     <button type="submit" className="btn btn-primary">Submit</button>

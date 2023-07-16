@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
 // protected route token based
-
 export const requireSignIn = async (req, res, next) => {
     try {
         const decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
