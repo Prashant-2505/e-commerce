@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Layout from '../../components/layout/Layout';
 import toast from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
 import '../../styles/authStyles.css'
 import { useAuth } from '../../context/auth';
+import Layout from '../../components/layout/Layout';
 
 const Login = () => {
 

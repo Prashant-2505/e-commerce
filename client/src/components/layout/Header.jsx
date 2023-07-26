@@ -8,7 +8,7 @@ const Header = () => {
   const [auth, setAuth] = useAuth()
 
   const handleLogOut = () => {
-  
+
     setAuth({
       ...auth,
       user: null,
@@ -18,7 +18,7 @@ const Header = () => {
     toast.success('Log out succesfullyy')
 
   };
-  
+
 
   return (
     <>
@@ -47,9 +47,23 @@ const Header = () => {
                   </li></>
               ) :
                 (
-                  <li className="nav-item">
-                    <NavLink onClick={handleLogOut} to="/login" className="nav-link ">Log OUT</NavLink>
+                  <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {auth?.user?.name}
+                    </a>
+                    <ul className="dropdown-menu">
+                    <li className="nav-item">
+                        <NavLink to={`/dashboard/${auth?.user?.role === 1 ?'admin' :'user'}`} className="nav-link ">DASHBOARD</NavLink>
+                      </li>
+                      <li className="nav-item">
+                        <NavLink onClick={handleLogOut} to="/login" className="nav-link ">Log OUT</NavLink>
+                      </li>
+                    </ul>
                   </li>
+
+
+
+
                 )}
 
               <li className="nav-item">
