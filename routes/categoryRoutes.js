@@ -5,7 +5,7 @@ import { createCategoryController, updateCategoryController ,categoryController,
 const router = express.Router();
 
 // create category route
-router.post("/create-category",createCategoryController);
+router.post("/create-category",requireSignIn,isAdmin,createCategoryController);
 // update category
 router.put("/update-category/:id",requireSignIn,isAdmin,updateCategoryController)
 // get all category
