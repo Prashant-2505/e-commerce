@@ -138,3 +138,21 @@ align-items: center;
 justify-content: center;
 height: 70vh;
 }
+
+
+
+/*  */
+.product-link
+{
+  text-decoration: none !important;
+  color:black !important;
+
+}
+
+.p-imgs
+{
+  height: 200px;
+  width: 300px;
+  object-fit: cover;
+  padding: 5px;
+}

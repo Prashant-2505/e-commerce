@@ -1,18 +1,25 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 import userModel from "../models/userModel.js";
 
 // protected route token based
-export const requireSignIn = async (req, res, next) => {
+
+export const requireSignIn = (req, res, next) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ error: 'Missing token' });
+    }
+
     try {
-        const decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-        req.user = decoded
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
         next();
     } catch (error) {
-        console.log(error);
-        // You need to handle the error appropriately, such as sending an error response
+        console.error('Error verifying token:', error);
         return res.status(401).json({ error: 'Invalid token' });
     }
 };
+
 
 
 // admin acess

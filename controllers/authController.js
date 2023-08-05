@@ -8,7 +8,7 @@ import JWT from "jsonwebtoken"
 // register
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address,answer } = req.body;
+    const { name, email, password, phone, address, answer } = req.body;
     if (!name || !email || !password || !address || !answer) {
       return res.status(400).json({ message: "Please provide all required fields" });
     }
@@ -23,7 +23,7 @@ export const registerController = async (req, res) => {
     }
 
     const hashPassword = await hashedPassword(password);
-    const user = await new userModel({ name, email, phone, password: hashPassword, address,answer }).save();
+    const user = await new userModel({ name, email, phone, password: hashPassword, address, answer }).save();
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -138,3 +138,51 @@ export const forgotPasswordController = async (req, res) => {
 export const testController = (req, res) => {
   res.send('Protected route')
 }
+
+
+
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, address, email, phone, password } = req.body;
+   
+    console.log("0");
+    const user = await userModel.findOne({ email });
+
+    console.log("1");
+
+    // Check password length
+    if (password && password.length < 6) {
+      return res.json({ error: 'Password is required and should be at least 6 characters long' });
+    }
+
+    console.log("2");
+
+    // Hash the password if provided
+    const hashPassword = password ? await hashedPassword(password) : undefined;
+
+    console.log("3");
+
+    // Update user data with provided or default values
+    const updateUser = await userModel.findOneAndUpdate(
+      { email }, // Filter object to find the user by email
+      { $set: { name: name || user.name, password: hashPassword || user.password, phone: phone || user.phone, address: address || user.address } }, // Update object with new values
+      { new: true } // Options object with 'new: true' to return the updated document
+    );
+
+    console.log("4");
+
+    res.status(200).send({
+      success: true,
+      message: 'Profile updated successfully',
+      updateUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: 'Something went wrong in updating the profile',
+      error,
+    });
+  }
+};

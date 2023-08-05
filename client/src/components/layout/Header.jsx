@@ -2,10 +2,14 @@ import React, { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
 import { toast } from 'react-hot-toast'
+import SearchInput from '../form/SearchInput'
+import { useCart } from '../../context/cart'
+import { Badge } from 'antd'
 
 const Header = () => {
 
   const [auth, setAuth] = useAuth()
+  const [cart] = useCart()
 
   const handleLogOut = () => {
 
@@ -30,6 +34,9 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <Link to="/" className="navbar-brand" >E-comm</Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+
+              <SearchInput />
+
               <li className="nav-item">
                 <NavLink to="/" className="nav-link " >Home</NavLink>
               </li>
@@ -52,22 +59,20 @@ const Header = () => {
                       {auth?.user?.name}
                     </a>
                     <ul className="dropdown-menu">
-                    <li className="nav-item">
-                        <NavLink to={`/dashboard/${auth?.user?.role === 1 ?'admin' :'user'}`} className="nav-link ">DASHBOARD</NavLink>
+                      <li className="nav-item">
+                        <NavLink to={`/dashboard/${auth?.user?.role === 1 ? 'admin' : 'user'}`} className="nav-link ">DASHBOARD</NavLink>
                       </li>
                       <li className="nav-item">
                         <NavLink onClick={handleLogOut} to="/login" className="nav-link ">Log OUT</NavLink>
                       </li>
                     </ul>
                   </li>
-
-
-
-
                 )}
 
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link ">Cart(0)</NavLink>
+                <Badge count={cart.length} showZero>
+                  <NavLink to="/cart" className="nav-link ">cart </NavLink>
+                </Badge>
               </li>
             </ul>
 
